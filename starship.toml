@@ -1,0 +1,15 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+[gcloud]
+disabled = true
+
+
+[custom.music]
+command = "osascript -e 'tell app \"Music\" to get name of current track'"
+when = "[[ $(osascript -e 'application \"Music\" is running') == true && $(osascript -e 'tell application \"Music\" to playing = player state') == true ]]"
+shell = "sh"
+description = "Shows the name of the currently playing track on Apple Music"
+symbol = "  "
+style = "#fa354f"
+format = "to [$symbol($output )]($style)"
+os = "macos"

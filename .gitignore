@@ -1,9 +1,10 @@
-tt.*
-.tests
-doc/tags
-debug
-.repro
-foo.*
-*.log
-data
-lazy-lock.json
+# Ignore everything
+*
+
+# Except these directories/files
+!.gitignore
+!nvim/
+!nvim/**
+!starship.toml
+!zsh/
+!zsh/**
