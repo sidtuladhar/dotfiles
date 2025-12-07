@@ -9,4 +9,5 @@
 !starship.toml
 !zsh/
 !tmux/
+!tmux/**
 !zsh/**
