@@ -1,5 +1,5 @@
 return {
-  "echasnovski/mini.map",
+  "nvim-mini/mini.map",
   version = "*",
   dependencies = { "lewis6991/gitsigns.nvim" },
   config = function()
@@ -8,12 +8,12 @@ return {
     -- Configure mini.map
     map.setup({
       integrations = {
-        map.gen_integration.builtin_search(), -- Highlight search results in the map
+        map.gen_integration.builtin_search(),                          -- Highlight search results in the map
         map.gen_integration.diagnostic({ error = "DiagnosticError" }), -- Show diagnostics
-        require("mini.map").gen_integration.gitsigns({ -- Git integration
-          add = "GitSignsAdd", -- Highlight group for added lines
-          change = "GitSignsChange", -- Highlight group for changed lines
-          delete = "GitSignsDelete", -- Highlight group for deleted lines
+        require("mini.map").gen_integration.gitsigns({                 -- Git integration
+          add = "GitSignsAdd",                                         -- Highlight group for added lines
+          change = "GitSignsChange",                                   -- Highlight group for changed lines
+          delete = "GitSignsDelete",                                   -- Highlight group for deleted lines
         }),
       },
       symbols = {
@@ -21,8 +21,8 @@ return {
       },
       window = {
         side = "right", -- Show the map on the right
-        width = 15, -- Adjust width to your preference
-        winblend = 25, -- Transparency (0 is opaque, 100 is fully transparent)
+        width = 15,     -- Adjust width to your preference
+        winblend = 25,  -- Transparency (0 is opaque, 100 is fully transparent)
       },
     })
 

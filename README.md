@@ -25,6 +25,9 @@ Before installing, ensure you have the following installed:
 
 # Install required packages
 brew install neovim starship
+
+# Install maccy (better clipboard)
+brew install --cask maccy
 ```
 
 ## Installation
