@@ -26,6 +26,9 @@ vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.fillchars = { eob = " " }
 vim.opt.scrolloff = 10
+vim.opt.showcmd = true
+vim.opt.showmode = false
+vim.opt.cmdheight = 1
 
 -- Keep cursor centered when scrolling
 vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Scroll down" })

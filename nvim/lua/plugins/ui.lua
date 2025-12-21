@@ -2,6 +2,67 @@ return {
 	{
 		"nvim-lualine/lualine.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
+		config = function()
+			local colors = {
+				bg = "#272822",
+				fg = "#f8f8f2",
+				green = "#a6e22e",
+				pink = "#f92672",
+				blue = "#66d9ef",
+				orange = "#fd971f",
+				purple = "#ae81ff",
+				grey = "#465457",
+			}
+
+			local molokai = {
+				normal = {
+					a = { fg = colors.bg, bg = colors.green, gui = "bold" },
+					b = { fg = colors.fg, bg = colors.grey },
+					c = { fg = colors.fg, bg = colors.bg },
+				},
+				insert = { a = { fg = colors.bg, bg = colors.blue, gui = "bold" } },
+				visual = { a = { fg = colors.bg, bg = colors.purple, gui = "bold" } },
+				replace = { a = { fg = colors.bg, bg = colors.pink, gui = "bold" } },
+				command = { a = { fg = colors.bg, bg = colors.orange, gui = "bold" } },
+				inactive = {
+					a = { fg = colors.grey, bg = colors.bg },
+					b = { fg = colors.grey, bg = colors.bg },
+					c = { fg = colors.grey, bg = colors.bg },
+				},
+			}
+
+			require("lualine").setup({
+				options = {
+					theme = molokai,
+					component_separators = "",
+					section_separators = { left = "", right = "" },
+					globalstatus = true,
+				},
+				sections = {
+					lualine_a = { "mode" },
+					lualine_b = { "branch", "diff" },
+					lualine_c = {},
+					lualine_x = {
+						{
+							function()
+								return vim.fn.reg_recording() ~= "" and "recording @" .. vim.fn.reg_recording() or ""
+							end,
+						},
+						"searchcount",
+					},
+					lualine_y = { "progress" },
+					lualine_z = { "location" },
+				},
+				inactive_sections = {
+					lualine_a = {},
+					lualine_b = {},
+					lualine_c = { "filename" },
+					lualine_x = { "location" },
+					lualine_y = {},
+					lualine_z = {},
+				},
+			})
+		end,
 	},
 
 	{
@@ -80,6 +141,22 @@ return {
 					},
 				})
 			end,
+		},
+	},
+
+	{
+		"folke/noice.nvim",
+		event = "VeryLazy",
+		opts = {
+			-- add any options here
+		},
+		dependencies = {
+			-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+			"MunifTanjim/nui.nvim",
+			-- OPTIONAL:
+			--   `nvim-notify` is only needed, if you want to use the notification view.
+			--   If not available, we use `mini` as the fallback
+			"rcarriga/nvim-notify",
 		},
 	},
 
