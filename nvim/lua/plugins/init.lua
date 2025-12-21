@@ -1,6 +1,21 @@
 return {
 
 	{
+		"echasnovski/mini.nvim",
+		version = "*",
+		config = function()
+			require("mini.ai").setup()
+			require("mini.pairs").setup()
+			require("mini.indentscope").setup({
+				symbol = "│",
+				draw = {
+					delay = 50,
+					animation = require("mini.indentscope").gen_animation.linear({ duration = 10 }),
+				},
+			})
+		end,
+	},
+	{
 		"nvim-telescope/telescope.nvim",
 		tag = "v0.2.0",
 		dependencies = { "nvim-lua/plenary.nvim" },
@@ -22,6 +37,23 @@ return {
 		"nvim-treesitter/nvim-treesitter",
 		lazy = false,
 		build = ":TSUpdate",
+	},
+
+	{
+		"neovim/nvim-lspconfig",
+		event = { "BufReadPre", "BufNewFile" },
+		config = function()
+			vim.lsp.config("lua_ls", {
+				settings = {
+					Lua = {
+						diagnostics = {
+							globals = { "vim" },
+						},
+					},
+				},
+			})
+			vim.lsp.enable("lua_ls")
+		end,
 	},
 
 	{

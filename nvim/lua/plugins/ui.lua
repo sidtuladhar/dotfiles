@@ -1,5 +1,15 @@
 return {
 	{
+		"navarasu/onedark.nvim",
+		priority = 1000, -- make sure to load this before all the other start plugins
+		config = function()
+			require("onedark").setup({
+				style = "deep",
+			})
+			require("onedark").load()
+		end,
+	},
+	{
 		"nvim-lualine/lualine.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		config = function()
@@ -145,17 +155,27 @@ return {
 	},
 
 	{
+		"rcarriga/nvim-notify",
+		opts = {
+			top_down = true,
+		},
+	},
+
+	{
 		"folke/noice.nvim",
 		event = "VeryLazy",
 		opts = {
-			-- add any options here
+			views = {
+				cmdline_popup = {
+					position = {
+						row = 5,
+						col = "50%",
+					},
+				},
+			},
 		},
 		dependencies = {
-			-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
 			"MunifTanjim/nui.nvim",
-			-- OPTIONAL:
-			--   `nvim-notify` is only needed, if you want to use the notification view.
-			--   If not available, we use `mini` as the fallback
 			"rcarriga/nvim-notify",
 		},
 	},
@@ -169,10 +189,6 @@ return {
 				border = "rounded",
 			},
 		},
-		config = function(_, opts)
-			vim.api.nvim_set_hl(0, "WhichKeyNormal", { link = "Normal" })
-			require("which-key").setup(opts)
-		end,
 		keys = {
 			{
 				"<leader>?",
