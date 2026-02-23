@@ -6,6 +6,17 @@ return {
 		config = function()
 			require("mini.ai").setup()
 			require("mini.pairs").setup()
+			require("mini.completion").setup()
+			vim.opt.completeopt = "menuone,noinsert"
+
+			-- CR confirms completion without newline (from mini.completion docs)
+			local cr_action = function()
+				if vim.fn.complete_info()["selected"] ~= -1 then
+					return "\25" -- <C-y> to accept
+				end
+				return "\r"
+			end
+			vim.keymap.set("i", "<CR>", cr_action, { expr = true })
 			require("mini.indentscope").setup({
 				symbol = "│",
 				draw = {
@@ -53,7 +64,15 @@ return {
 				},
 			})
 			vim.lsp.enable("lua_ls")
+			vim.lsp.enable("pyright")
+			vim.lsp.enable("clangd")
+			vim.lsp.enable("jdtls")
 		end,
+	},
+
+	{
+		"mason-org/mason.nvim",
+		opts = {},
 	},
 
 	{
@@ -61,6 +80,8 @@ return {
 		opts = {
 			formatters_by_ft = {
 				lua = { "stylua" },
+				python = { "ruff_format" },
+				java = { "google-java-format" },
 			},
 			format_on_save = {
 				-- These options will be passed to conform.format()
@@ -195,5 +216,14 @@ return {
 				desc = "Toggle Flash Search",
 			},
 		},
+	},
+
+	{
+		"iamcco/markdown-preview.nvim",
+		cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+		ft = { "markdown" },
+		build = function()
+			vim.fn["mkdp#util#install"]()
+		end,
 	},
 }
