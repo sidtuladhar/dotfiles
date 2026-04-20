@@ -3,6 +3,7 @@
 
 # Except these directories/files
 !.gitignore
+!ghostty
 !README.md
 !nvim/
 !nvim/**
