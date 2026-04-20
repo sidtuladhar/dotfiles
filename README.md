@@ -14,6 +14,7 @@ Before installing, ensure you have the following installed:
 
 - [Neovim](https://neovim.io/) (>= 0.9.0)
 - [Starship](https://starship.rs/) prompt
+- Tmux
 - Zsh shell
 - Git
 
@@ -28,6 +29,9 @@ brew install neovim starship
 
 # Install maccy (better clipboard)
 brew install --cask maccy
+
+# Tmux Package Manager
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ```
 
 ## Installation
@@ -43,15 +47,20 @@ git clone https://github.com/yourusername/dotfiles.git ~/.config
 Add the following to your `~/.zshrc`:
 
 ```bash
-# Source custom zsh configurations
-if [ -f ~/.config/zsh/functions.zsh ]; then
-    source ~/.config/zsh/functions.zsh
-fi
+for file in ~/.config/zsh/*.zsh; do
+  [ -f "$file" ] && source "$file"
+done
 
-if [ -f ~/.config/zsh/prompt.zsh ]; then
-    source ~/.config/zsh/prompt.zsh
-fi
+# Add Plugins
+zsh_add_plugin "zsh-users/zsh-syntax-highlighting"
+zsh_add_plugin "zsh-users/zsh-autosuggestions"
+
+# Enable color support
+autoload -Uz colors && colors
+
+# Set completion style
+zstyle ':completion:*' menu select
 
 # Initialize Starship prompt
-eval "$(starship init zsh)"
+ eval "$(starship init zsh)"
 ```
