@@ -7,6 +7,28 @@ return {
 			require("mini.ai").setup()
 			require("mini.pairs").setup()
 			require("mini.completion").setup()
+			local map = require("mini.map")
+			map.setup({
+				integrations = {
+					map.gen_integration.builtin_search(),
+					map.gen_integration.gitsigns(),
+					map.gen_integration.diagnostic(),
+				},
+				symbols = {
+					encode = map.gen_encode_symbols.dot("4x2"),
+				},
+				window = {
+					width = 10,
+					winblend = 25,
+				},
+			})
+			vim.keymap.set("n", "<leader>mm", map.toggle, { desc = "Toggle minimap" })
+			vim.api.nvim_create_autocmd("BufEnter", {
+				callback = function()
+					vim.schedule(map.open)
+				end,
+			})
+
 			vim.opt.completeopt = "menuone,noinsert"
 
 			-- CR confirms completion without newline (from mini.completion docs)
