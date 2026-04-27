@@ -23,11 +23,6 @@ return {
 				},
 			})
 			vim.keymap.set("n", "<leader>mm", map.toggle, { desc = "Toggle minimap" })
-			vim.api.nvim_create_autocmd("BufEnter", {
-				callback = function()
-					vim.schedule(map.open)
-				end,
-			})
 
 			vim.opt.completeopt = "menuone,noinsert"
 
@@ -62,7 +57,7 @@ return {
 		},
 		keys = {
 			{ "<leader><leader>", "<cmd>Telescope find_files<cr>", desc = "Find Files" },
-			{ "<leader>/", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Grep Buffer" },
+			{ "<leader>/", "<cmd>Telescope live_grep<cr>", desc = "Grep (project)" },
 		},
 	},
 
