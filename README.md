@@ -48,7 +48,7 @@ Add the following to your `~/.zshrc`:
 
 ```bash
 export ZSH="$HOME/.oh-my-zsh"
-plugins=(git zsh-syntax-highlighting zsh-autosuggestions)
+plugins=(git colored-man-pages sudo z zsh-syntax-highlighting zsh-autosuggestions)
 source $ZSH/oh-my-zsh.sh
 
 # Enable color support
