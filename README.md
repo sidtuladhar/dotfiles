@@ -1,6 +1,6 @@
 # dotfiles
 
-My personal configuration files for macOS development environment.
+My personal configuration files for macOS / Linux environments.
 
 ## What's Included
 
@@ -34,6 +34,20 @@ brew install --cask maccy
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ```
 
+### Linux Installation
+
+```bash
+# Install required packages (Debian/Ubuntu; use dnf/pacman for other distros)
+sudo apt update
+sudo apt install neovim tmux zsh git
+
+# Install Powerlevel10k
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.powerlevel10k
+
+# Tmux Package Manager
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+```
+
 ## Installation
 
 ### 1. Clone the Repository
@@ -58,7 +72,11 @@ autoload -Uz colors && colors
 zstyle ':completion:*' menu select
 
 # Initialize Powerlevel10k prompt
-source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
+if command -v brew &>/dev/null; then
+  source "$(brew --prefix)/share/powerlevel10k/powerlevel10k.zsh-theme"
+else
+  source ~/.powerlevel10k/powerlevel10k.zsh-theme
+fi
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 ```
 
