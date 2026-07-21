@@ -13,8 +13,14 @@ My personal configuration files for macOS / Linux environments.
 
 ### 1. Clone the Repository
 
+`~/.config` usually already exists (populated by other apps), so a plain `git clone` will fail with "destination path already exists". Instead, initialize it in place and check out onto it:
+
 ```bash
-git clone https://github.com/sidtuladhar/dotfiles.git ~/.config
+git init ~/.config
+cd ~/.config
+git remote add origin https://github.com/sidtuladhar/dotfiles.git
+git fetch
+git checkout -f main
 ```
 
 ### 2. Install Packages
