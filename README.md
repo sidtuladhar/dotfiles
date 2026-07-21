@@ -9,17 +9,6 @@ My personal configuration files for macOS / Linux environments.
 - **Tmux**: Config with TPM-managed plugins (cpu/ram status, session persistence, prefix highlighting)
 - **Ghostty**: Terminal emulator settings (`ghostty_settings` — copy/symlink into Ghostty's config location; see below)
 
-## Prerequisites
-
-Before installing, ensure you have the following installed:
-
-- [Neovim](https://neovim.io/) (>= 0.9.0)
-- [Oh My Zsh](https://ohmyz.sh/)
-- [Powerlevel10k](https://github.com/romkatv/powerlevel10k) prompt
-- Tmux
-- Zsh shell
-- Git
-
 ## Installation
 
 ### 1. Clone the Repository
