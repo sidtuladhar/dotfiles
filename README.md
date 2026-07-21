@@ -40,9 +40,18 @@ brew install --cask maccy
 
 **Linux (Debian/Ubuntu; use dnf/pacman for other distros):**
 
+`apt`'s Neovim package is usually far behind (e.g. 0.9.5 on Ubuntu 24.04, 0.6.x on 22.04) and too old for this config. Install the official prebuilt release instead:
+
 ```bash
 sudo apt update
-sudo apt install neovim tmux zsh git
+sudo apt install tmux zsh git curl
+
+# Install latest stable Neovim from the official release tarball
+curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
+sudo rm -rf /opt/nvim
+sudo tar -C /opt -xzf nvim-linux-x86_64.tar.gz
+sudo mv /opt/nvim-linux-x86_64 /opt/nvim
+rm nvim-linux-x86_64.tar.gz
 ```
 
 ### 3. Install Oh My Zsh and Powerlevel10k
@@ -67,6 +76,9 @@ Add the following to your `~/.zshrc`:
 export ZSH="$HOME/.oh-my-zsh"
 plugins=(git colored-man-pages sudo z zsh-syntax-highlighting zsh-autosuggestions)
 source $ZSH/oh-my-zsh.sh
+
+# For latest Neovim version
+export PATH="/opt/nvim/bin:$PATH"
 
 # Enable color support
 autoload -Uz colors && colors
