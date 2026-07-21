@@ -6,6 +6,8 @@ My personal configuration files for macOS / Linux environments.
 
 - **Neovim**: Full LazyVim configuration with custom plugins and settings
 - **Oh My Zsh**: Shell framework with Powerlevel10k prompt
+- **Tmux**: Config with TPM-managed plugins (cpu/ram status, session persistence, prefix highlighting)
+- **Ghostty**: Terminal emulator settings (`ghostty_settings` — copy/symlink into Ghostty's config location; see below)
 
 ## Prerequisites
 
@@ -18,45 +20,51 @@ Before installing, ensure you have the following installed:
 - Zsh shell
 - Git
 
-### macOS Installation
+## Installation
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/sidtuladhar/dotfiles.git ~/.config
+```
+
+### 2. Install Packages
+
+**macOS:**
 
 ```bash
 # Install Homebrew
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 # Install required packages
-brew install neovim powerlevel10k
+brew install neovim tmux
 
 # Install maccy (better clipboard)
 brew install --cask maccy
-
-# Tmux Package Manager
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ```
 
-### Linux Installation
+**Linux (Debian/Ubuntu; use dnf/pacman for other distros):**
 
 ```bash
-# Install required packages (Debian/Ubuntu; use dnf/pacman for other distros)
 sudo apt update
 sudo apt install neovim tmux zsh git
-
-# Install Powerlevel10k
-git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.powerlevel10k
-
-# Tmux Package Manager
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ```
 
-## Installation
-
-### 1. Clone the Repository
+### 3. Install Oh My Zsh and Powerlevel10k
 
 ```bash
-git clone https://github.com/yourusername/dotfiles.git ~/.config
+# Install Oh My Zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+# Install Powerlevel10k as an Oh My Zsh custom theme
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/powerlevel10k
+
+# Install zsh-syntax-highlighting and zsh-autosuggestions as Oh My Zsh custom plugins
+git clone https://github.com/zsh-users/zsh-syntax-highlighting ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 ```
 
-### 2. Zsh Configuration
+### 4. Zsh Configuration
 
 Add the following to your `~/.zshrc`:
 
@@ -72,17 +80,29 @@ autoload -Uz colors && colors
 zstyle ':completion:*' menu select
 
 # Initialize Powerlevel10k prompt
-if command -v brew &>/dev/null; then
-  source "$(brew --prefix)/share/powerlevel10k/powerlevel10k.zsh-theme"
-else
-  source ~/.powerlevel10k/powerlevel10k.zsh-theme
-fi
+source ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/powerlevel10k/powerlevel10k.zsh-theme
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 ```
 
-Clone `zsh-syntax-highlighting` and `zsh-autosuggestions` into `$ZSH_CUSTOM/plugins/` (default: `~/.oh-my-zsh/custom/plugins/`) so Oh My Zsh can load them:
+### 5. Tmux Plugins
+
+Install TPM (Tmux Plugin Manager) into the cloned config, then let it install the rest:
 
 ```bash
-git clone https://github.com/zsh-users/zsh-syntax-highlighting ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm
+```
+
+Start tmux, then press `prefix + I` (capital I) to fetch and install all plugins listed in `tmux/tmux.conf`.
+
+### 6. Ghostty (optional)
+
+Copy or symlink `ghostty_settings` to Ghostty's config location:
+
+```bash
+# macOS
+ln -sf ~/.config/ghostty_settings "$HOME/Library/Application Support/com.mitchellh.ghostty/config"
+
+# Linux
+mkdir -p ~/.config/ghostty
+ln -sf ~/.config/ghostty_settings ~/.config/ghostty/config
 ```
