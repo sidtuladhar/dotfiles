@@ -90,8 +90,4 @@ Copy or symlink `ghostty_settings` to Ghostty's config location:
 ```bash
 # macOS
 ln -sf ~/.config/ghostty_settings "$HOME/Library/Application Support/com.mitchellh.ghostty/config"
-
-# Linux
-mkdir -p ~/.config/ghostty
-ln -sf ~/.config/ghostty_settings ~/.config/ghostty/config
 ```
