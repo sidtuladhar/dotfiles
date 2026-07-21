@@ -50,11 +50,14 @@ vim.keymap.set("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Show diag
 vim.keymap.set("n", "<leader>wd", "<C-w>c", { desc = "Close window" })
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<cr>", { desc = "Clear search highlight" })
 
-vim.cmd.colorscheme("sorbet")
-
--- Fix white fog on floating windows (sorbet colorscheme issue)
-vim.api.nvim_set_hl(0, "NormalFloat", { link = "Normal" })
-vim.api.nvim_set_hl(0, "FloatBorder", { link = "Normal" })
+-- Fix white fog on floating windows (onedark colorscheme issue);
+-- must run after each colorscheme load, since onedark sets its own NormalFloat/FloatBorder
+vim.api.nvim_create_autocmd("ColorScheme", {
+	callback = function()
+		vim.api.nvim_set_hl(0, "NormalFloat", { link = "Normal" })
+		vim.api.nvim_set_hl(0, "FloatBorder", { link = "Normal" })
+	end,
+})
 
 -- Setup lazy.nvim
 require("lazy").setup({
