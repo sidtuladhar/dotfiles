@@ -44,7 +44,7 @@ brew install --cask maccy
 
 ```bash
 sudo apt update
-sudo apt install tmux zsh git curl
+sudo apt install tmux zsh git curl build-essential ripgrep
 
 # Install latest stable Neovim from the official release tarball
 curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz

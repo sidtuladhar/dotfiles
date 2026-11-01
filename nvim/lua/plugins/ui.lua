@@ -1,12 +1,9 @@
 return {
 	{
-		"navarasu/onedark.nvim",
-		priority = 1000, -- make sure to load this before all the other start plugins
+		"olimorris/onedarkpro.nvim",
+		priority = 1000, -- Ensure it loads first,
 		config = function()
-			require("onedark").setup({
-				style = "deep",
-			})
-			require("onedark").load()
+			vim.cmd.colorscheme("onedark_dark")
 		end,
 	},
 	{

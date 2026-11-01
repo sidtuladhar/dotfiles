@@ -26,9 +26,20 @@ vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.fillchars = { eob = " " }
 vim.opt.scrolloff = 10
-vim.opt.showcmd = true
 vim.opt.showmode = false
-vim.opt.cmdheight = 1
+vim.opt.signcolumn = "yes"
+
+-- Built-in completion as you type: LSP (via omnifunc), then buffer words
+vim.o.autocomplete = true
+vim.o.complete = "o,.,w,b,u"
+vim.o.completeopt = "menuone,noinsert,popup"
+
+-- Needed for snippets and auto-imports when accepting an LSP completion
+vim.api.nvim_create_autocmd("LspAttach", {
+	callback = function(args)
+		vim.lsp.completion.enable(true, args.data.client_id, args.buf)
+	end,
+})
 
 -- Keep cursor centered when scrolling
 vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Scroll down" })
@@ -45,7 +56,6 @@ vim.keymap.set("n", "<S-h>", "<cmd>BufferLineCyclePrev<cr>", { desc = "Prev buff
 vim.keymap.set("n", "<S-l>", "<cmd>BufferLineCycleNext<cr>", { desc = "Next buffer" })
 vim.keymap.set("n", "<leader>bd", "<cmd>bp|bd #<cr>", { desc = "Close buffer" })
 vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "Go to definition" })
-vim.keymap.set("n", "gr", vim.lsp.buf.references, { desc = "Go to references" })
 vim.keymap.set("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Show diagnostic" })
 vim.keymap.set("n", "<leader>wd", "<C-w>c", { desc = "Close window" })
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<cr>", { desc = "Clear search highlight" })
