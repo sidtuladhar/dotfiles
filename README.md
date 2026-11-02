@@ -1,59 +1,84 @@
 # dotfiles
 
-My personal configuration files for macOS development environment.
+My personal configuration files for macOS / Linux environments.
 
 ## What's Included
 
 - **Neovim**: Full LazyVim configuration with custom plugins and settings
-- **Starship**: Cross-shell prompt configuration
-- **Zsh**: Custom shell functions and prompt configurations
+- **Oh My Zsh**: Shell framework with Powerlevel10k prompt
+- **Tmux**: Config with TPM-managed plugins (cpu/ram status, session persistence, prefix highlighting)
+- **Ghostty**: Terminal emulator settings (`ghostty_settings` — copy/symlink into Ghostty's config location; see below)
 
-## Prerequisites
+## Installation
 
-Before installing, ensure you have the following installed:
+### 1. Clone the Repository
 
-- [Neovim](https://neovim.io/) (>= 0.9.0)
-- [Starship](https://starship.rs/) prompt
-- Tmux
-- Zsh shell
-- Git
+`~/.config` usually already exists (populated by other apps), so a plain `git clone` will fail with "destination path already exists". Instead, initialize it in place and check out onto it:
 
-### macOS Installation
+```bash
+git init ~/.config
+cd ~/.config
+git remote add origin https://github.com/sidtuladhar/dotfiles.git
+git fetch
+git checkout -f main
+```
+
+### 2. Install Packages
+
+**macOS:**
 
 ```bash
 # Install Homebrew
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 # Install required packages
-brew install neovim starship
+brew install neovim tmux
 
 # Install maccy (better clipboard)
 brew install --cask maccy
-
-# Tmux Package Manager
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ```
 
-## Installation
+**Linux (Debian/Ubuntu; use dnf/pacman for other distros):**
 
-### 1. Clone the Repository
+`apt`'s Neovim package is usually far behind (e.g. 0.9.5 on Ubuntu 24.04, 0.6.x on 22.04) and too old for this config. Install the official prebuilt release instead:
 
 ```bash
-git clone https://github.com/yourusername/dotfiles.git ~/.config
+sudo apt update
+sudo apt install tmux zsh git curl build-essential ripgrep
+
+# Install latest stable Neovim from the official release tarball
+curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
+sudo rm -rf /opt/nvim
+sudo tar -C /opt -xzf nvim-linux-x86_64.tar.gz
+sudo mv /opt/nvim-linux-x86_64 /opt/nvim
+rm nvim-linux-x86_64.tar.gz
 ```
 
-### 2. Zsh Configuration
+### 3. Install Oh My Zsh and Powerlevel10k
+
+```bash
+# Install Oh My Zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+# Install Powerlevel10k as an Oh My Zsh custom theme
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/powerlevel10k
+
+# Install zsh-syntax-highlighting and zsh-autosuggestions as Oh My Zsh custom plugins
+git clone https://github.com/zsh-users/zsh-syntax-highlighting ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+```
+
+### 4. Zsh Configuration
 
 Add the following to your `~/.zshrc`:
 
 ```bash
-for file in ~/.config/zsh/*.zsh; do
-  [ -f "$file" ] && source "$file"
-done
+export ZSH="$HOME/.oh-my-zsh"
+plugins=(git colored-man-pages sudo z zsh-syntax-highlighting zsh-autosuggestions)
+source $ZSH/oh-my-zsh.sh
 
-# Add Plugins
-zsh_add_plugin "zsh-users/zsh-syntax-highlighting"
-zsh_add_plugin "zsh-users/zsh-autosuggestions"
+# For latest Neovim version
+export PATH="/opt/nvim/bin:$PATH"
 
 # Enable color support
 autoload -Uz colors && colors
@@ -61,6 +86,26 @@ autoload -Uz colors && colors
 # Set completion style
 zstyle ':completion:*' menu select
 
-# Initialize Starship prompt
- eval "$(starship init zsh)"
+# Initialize Powerlevel10k prompt
+source ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/powerlevel10k/powerlevel10k.zsh-theme
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+```
+
+### 5. Tmux Plugins
+
+Install TPM (Tmux Plugin Manager) into the cloned config, then let it install the rest:
+
+```bash
+git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm
+```
+
+Start tmux, then press `prefix + I` (capital I) to fetch and install all plugins listed in `tmux/tmux.conf`.
+
+### 6. Ghostty (optional)
+
+Copy or symlink `ghostty_settings` to Ghostty's config location:
+
+```bash
+# macOS
+ln -sf ~/.config/ghostty_settings "$HOME/Library/Application Support/com.mitchellh.ghostty/config"
 ```

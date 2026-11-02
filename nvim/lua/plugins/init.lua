@@ -1,12 +1,10 @@
 return {
-
 	{
 		"echasnovski/mini.nvim",
 		version = "*",
 		config = function()
 			require("mini.ai").setup()
 			require("mini.pairs").setup()
-			require("mini.completion").setup()
 			local map = require("mini.map")
 			map.setup({
 				integrations = {
@@ -23,22 +21,15 @@ return {
 				},
 			})
 			vim.keymap.set("n", "<leader>mm", map.toggle, { desc = "Toggle minimap" })
-			vim.api.nvim_create_autocmd("BufEnter", {
-				callback = function()
-					vim.schedule(map.open)
-				end,
-			})
 
-			vim.opt.completeopt = "menuone,noinsert"
-
-			-- CR confirms completion without newline (from mini.completion docs)
+			-- CR accepts a selected completion, otherwise lets mini.pairs handle it
 			local cr_action = function()
 				if vim.fn.complete_info()["selected"] ~= -1 then
 					return "\25" -- <C-y> to accept
 				end
-				return "\r"
+				return MiniPairs.cr()
 			end
-			vim.keymap.set("i", "<CR>", cr_action, { expr = true })
+			vim.keymap.set("i", "<CR>", cr_action, { expr = true, replace_keycodes = false })
 			require("mini.indentscope").setup({
 				symbol = "│",
 				draw = {
@@ -51,7 +42,18 @@ return {
 	{
 		"nvim-telescope/telescope.nvim",
 		tag = "v0.2.0",
-		dependencies = { "nvim-lua/plenary.nvim" },
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			{
+				"nvim-telescope/telescope-fzf-native.nvim",
+				build = "make",
+				-- Needs a C toolchain; without one, Telescope uses its Lua sorter
+				cond = function()
+					return vim.fn.executable("make") == 1
+						and (vim.fn.executable("cc") == 1 or vim.fn.executable("gcc") == 1)
+				end,
+			},
+		},
 		opts = {
 			defaults = {
 				layout_config = {
@@ -60,9 +62,13 @@ return {
 				sorting_strategy = "ascending",
 			},
 		},
+		config = function(_, opts)
+			require("telescope").setup(opts)
+			pcall(require("telescope").load_extension, "fzf")
+		end,
 		keys = {
 			{ "<leader><leader>", "<cmd>Telescope find_files<cr>", desc = "Find Files" },
-			{ "<leader>/", "<cmd>Telescope live_grep<cr>", desc = "Grep Buffer" },
+			{ "<leader>/", "<cmd>Telescope live_grep<cr>", desc = "Grep (project)" },
 		},
 	},
 
@@ -158,8 +164,8 @@ return {
 				"<leader>qq",
 				function()
 					pcall(vim.cmd, "Neotree close")
-					vim.cmd("wa")
-					vim.cmd("qa")
+					vim.cmd("silent! wa")
+					vim.cmd("confirm qa")
 				end,
 				desc = "Quit All",
 			},
