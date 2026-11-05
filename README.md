@@ -32,7 +32,7 @@ git checkout -f main
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 # Install required packages
-brew install neovim tmux
+brew install neovim tmux fzf
 
 # Install maccy (better clipboard)
 brew install --cask maccy
@@ -44,7 +44,7 @@ brew install --cask maccy
 
 ```bash
 sudo apt update
-sudo apt install tmux zsh git curl build-essential ripgrep
+sudo apt install tmux zsh git curl build-essential ripgrep fzf
 
 # Install latest stable Neovim from the official release tarball
 curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
@@ -74,7 +74,7 @@ Add the following to your `~/.zshrc`:
 
 ```bash
 export ZSH="$HOME/.oh-my-zsh"
-plugins=(git colored-man-pages sudo z zsh-syntax-highlighting zsh-autosuggestions)
+plugins=(git colored-man-pages sudo z fzf zsh-syntax-highlighting zsh-autosuggestions)
 source $ZSH/oh-my-zsh.sh
 
 # For latest Neovim version
