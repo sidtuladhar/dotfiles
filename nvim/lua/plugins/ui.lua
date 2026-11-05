@@ -105,6 +105,14 @@ return {
 				{ "<leader>e", "<cmd>Neotree action=show toggle=true<cr>", desc = "Toggle Neo-tree" },
 			},
 			opts = {
+				filesystem = {
+					-- Reveal and highlight the current buffer's file in the tree
+					-- whenever you switch buffers (e.g. via Telescope)
+					follow_current_file = {
+						enabled = true,
+						leave_dirs_open = false,
+					},
+				},
 				window = {
 					width = 25,
 					mappings = {
