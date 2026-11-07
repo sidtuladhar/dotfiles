@@ -55,3 +55,6 @@ window-inherit-working-directory=false
 
 keybind = shift+enter=text:\n
 
+
+# Install Ghostty's terminfo on SSH hosts, or fall back to a TERM they know
+shell-integration-features = ssh-terminfo,ssh-env
