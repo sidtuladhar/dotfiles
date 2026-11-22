@@ -74,7 +74,7 @@ Add the following to your `~/.zshrc`:
 
 ```bash
 export ZSH="$HOME/.oh-my-zsh"
-plugins=(git colored-man-pages sudo z fzf zsh-syntax-highlighting zsh-autosuggestions)
+plugins=(git colored-man-pages sudo z fzf docker kubectl zsh-syntax-highlighting zsh-autosuggestions)
 source $ZSH/oh-my-zsh.sh
 
 # For latest Neovim version
@@ -85,6 +85,20 @@ autoload -Uz colors && colors
 
 # Set completion style
 zstyle ':completion:*' menu select
+
+# Autocorrect for mistyped commands ("gti" -> "did you mean git?")
+setopt CORRECT
+
+# Better history
+HISTSIZE=100000
+SAVEHIST=100000
+setopt HIST_IGNORE_ALL_DUPS   # no duplicate entries
+setopt HIST_IGNORE_SPACE      # commands starting with a space aren't saved (good for secrets)
+setopt HIST_REDUCE_BLANKS
+
+# Aliases
+alias reload='source ~/.zshrc'
+alias nv='neovim .'
 
 # Initialize Powerlevel10k prompt
 source ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/powerlevel10k/powerlevel10k.zsh-theme
