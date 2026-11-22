@@ -66,6 +66,9 @@ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-~
 # Install zsh-syntax-highlighting and zsh-autosuggestions as Oh My Zsh custom plugins
 git clone https://github.com/zsh-users/zsh-syntax-highlighting ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+
+# Install fzf-tab (fuzzy-search Tab completion menu)
+git clone https://github.com/Aloxaf/fzf-tab ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fzf-tab
 ```
 
 ### 4. Zsh Configuration
@@ -74,7 +77,7 @@ Add the following to your `~/.zshrc`:
 
 ```bash
 export ZSH="$HOME/.oh-my-zsh"
-plugins=(git colored-man-pages sudo z fzf docker kubectl zsh-syntax-highlighting zsh-autosuggestions)
+plugins=(git colored-man-pages sudo z fzf docker kubectl fzf-tab zsh-syntax-highlighting zsh-autosuggestions)
 source $ZSH/oh-my-zsh.sh
 
 # For latest Neovim version
@@ -95,6 +98,10 @@ SAVEHIST=100000
 setopt HIST_IGNORE_ALL_DUPS   # no duplicate entries
 setopt HIST_IGNORE_SPACE      # commands starting with a space aren't saved (good for secrets)
 setopt HIST_REDUCE_BLANKS
+
+# fzf-tab previews (folder contents for cd, file contents for cat/nvim)
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'command ls -1 --color=always $realpath'
+zstyle ':fzf-tab:complete:(cat|bat|nvim):*' fzf-preview 'command cat $realpath 2>/dev/null || command ls -1 --color=always $realpath'
 
 # Aliases
 alias reload='source ~/.zshrc'
