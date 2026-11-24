@@ -80,4 +80,10 @@ require("lazy").setup({
 	install = { colorscheme = { "habamax" } },
 	-- automatically check for plugin updates
 	checker = { enabled = true },
+	performance = {
+		rtp = {
+			-- Ubuntu's nvim package keeps its bundled parsers here, and lazy's rtp reset drops it
+			paths = { "/usr/lib/x86_64-linux-gnu/nvim" },
+		},
+	},
 })
